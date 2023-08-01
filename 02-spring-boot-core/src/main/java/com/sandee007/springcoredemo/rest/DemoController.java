@@ -9,12 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DemoController {
     private Coach coach;
+    private Coach coach2;
 
     //    define a constructor for dependency injection
     @Autowired
-    public DemoController(@Qualifier("footballCoach") Coach c) {
+    public DemoController(
+            @Qualifier("cricketCoach") Coach c,
+            @Qualifier("cricketCoach") Coach c2
+    ) {
         System.out.println("Init Constructor: " + getClass().getSimpleName());
         coach = c;
+        coach2 = c2;
     }
 
 //    //    setter injection
@@ -26,5 +31,10 @@ public class DemoController {
     @GetMapping("/daily-workout")
     public String getDailyWorkout() {
         return coach.getDailyWorkout();
+    }
+
+    @GetMapping("/check-bean-scope")
+    public String check() {
+        return "coach == coach2 :" + (coach == coach2);
     }
 }
