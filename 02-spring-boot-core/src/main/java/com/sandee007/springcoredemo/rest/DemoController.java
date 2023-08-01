@@ -14,27 +14,15 @@ public class DemoController {
     //    define a constructor for dependency injection
     @Autowired
     public DemoController(
-            @Qualifier("cricketCoach") Coach c,
-            @Qualifier("cricketCoach") Coach c2
+            @Qualifier("cricketCoach") Coach c
     ) {
         System.out.println("Init Constructor: " + getClass().getSimpleName());
         coach = c;
-        coach2 = c2;
     }
-
-//    //    setter injection
-//    @Autowired
-//    public void setCoach(Coach c) {
-//        coach = c;
-//    }
 
     @GetMapping("/daily-workout")
     public String getDailyWorkout() {
         return coach.getDailyWorkout();
     }
 
-    @GetMapping("/check-bean-scope")
-    public String check() {
-        return "coach == coach2 :" + (coach == coach2);
-    }
 }
