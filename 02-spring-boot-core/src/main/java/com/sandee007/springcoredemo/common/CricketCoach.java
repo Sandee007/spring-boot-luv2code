@@ -1,4 +1,4 @@
-package com.sandee007.util;
+package com.sandee007.springcoredemo.common;
 
 import org.springframework.stereotype.Component;
 
