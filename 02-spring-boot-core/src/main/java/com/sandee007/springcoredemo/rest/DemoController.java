@@ -14,7 +14,7 @@ public class DemoController {
     //    define a constructor for dependency injection
     @Autowired
     public DemoController(
-            @Qualifier("cricketCoach") Coach c
+            @Qualifier("aquatic") Coach c // calling the custom bean id here
     ) {
         System.out.println("Init Constructor: " + getClass().getSimpleName());
         coach = c;
