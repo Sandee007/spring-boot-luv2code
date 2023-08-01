@@ -2,6 +2,8 @@ package com.sandee007.cruddemo.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Timestamp;
+
 @Entity
 @Table(name = "students")
 public class Student {
@@ -12,20 +14,25 @@ public class Student {
     private int id;
 
     @Column(name = "firstname")
-    private String firstname;
+    private String firstName;
 
     @Column(name = "lastname")
-    private String lastname;
+    private String lastName;
 
     @Column(name = "email")
     private String email;
 
+    @Column(name = "delete_flg", columnDefinition = "integer default 0")
+    private int deleteFlg;
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP", insertable = false)
+    private Timestamp createdAt;
+
 //    every @Entity must have a no-arg constructor
     public Student(){}
 
-    public Student(String firstname, String lastname, String email) {
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public Student(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 
@@ -37,20 +44,20 @@ public class Student {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -61,13 +68,14 @@ public class Student {
         this.email = email;
     }
 
-//    override toString() method
+    //    override toString() method
+
     @Override
     public String toString() {
         return "Student{" +
                 "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
