@@ -6,6 +6,10 @@ import org.springframework.stereotype.Component;
 @Component // @Component annotation marks the class as a spring bean - makes it available for dependency injection
 @Primary // @Qualifier will overwrite @Primary if available
 public class CricketCoach implements Coach {
+    public CricketCoach() {
+        System.out.println("Init Constructor: " + getClass().getSimpleName());
+    }
+
     @Override
     public String getDailyWorkout() {
         return "Practice batting";
