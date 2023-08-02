@@ -46,7 +46,7 @@ public class EmployeeRestController {
             employeeService.deleteById(employeeId);
             return "Employee Deleted.";
         } catch (Exception e) {
-            return "An error occurred";
+            return e.getMessage();
         }
     }
 }
