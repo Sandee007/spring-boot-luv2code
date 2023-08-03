@@ -18,7 +18,6 @@ public class EmployeeRestController {
 
     @GetMapping("")
     public List<Employee> findAll() {
-        System.out.println(Authorities.MANAGER.name());
         return employeeService.findAll();
     }
 
