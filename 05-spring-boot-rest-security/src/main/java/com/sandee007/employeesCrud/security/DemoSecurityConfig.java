@@ -45,13 +45,31 @@ public class DemoSecurityConfig {
     @Bean
     UserDetailsManager userDetailsManager(DataSource dataSource) {
         /*
-         * when using jdbc security authorities.authority must be prefixed with ROLE_
+         *  *****************************************
+         *  when using jdbc security (for both default tables and custom tables) - authorities.authority must be prefixed with ROLE_
          * eg : -
          *   in db authorities.authority => ROLE_MANAGER
          *   in code user role string => MANAGER
          *   (spring will handle ROLE_ automatically)
          * */
-        return new JdbcUserDetailsManager(dataSource);
+
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+
+//        use custom tables for spring security
+        jdbcUserDetailsManager.setUsersByUsernameQuery(
+                "SELECT username, password, active FROM custom_table_users " +
+                        " WHERE username=?"
+        );
+
+//        my custom SQL - foreign key applied via LEFT JOIN - mind the spaces !!!
+        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
+                "SELECT R.user_id, R.role FROM custom_table_roles AS R " +
+                        " LEFT JOIN custom_table_users AS U " +
+                        " ON U.id = R.user_id " +
+                        " WHERE U.username=?"
+        );
+
+        return jdbcUserDetailsManager;
     }
 
     @Bean
