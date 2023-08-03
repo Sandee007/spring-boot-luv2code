@@ -8,14 +8,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class DemoSecurityConfig {
-    private final String EMPLOYEE = "EMPLOYEE";
-    private final String MANAGER = "MANAGER";
-    private final String ADMIN = "ADMIN";
-
+    /*
     @Bean
     public InMemoryUserDetailsManager userDetailsManager() {
         UserDetails john = User.builder()
@@ -38,16 +39,37 @@ public class DemoSecurityConfig {
 
         return new InMemoryUserDetailsManager(john, mary, susan);
     }
+*/
+
+    //    add support for jdbc users table for security
+    @Bean
+    UserDetailsManager userDetailsManager(DataSource dataSource) {
+        /*
+         * when using jdbc security authorities.authority must be prefixed with ROLE_
+         * eg : -
+         *   in db authorities.authority => ROLE_MANAGER
+         *   in code user role string => MANAGER
+         *   (spring will handle ROLE_ automatically)
+         * */
+        return new JdbcUserDetailsManager(dataSource);
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(config ->
                 config
-                        .requestMatchers(HttpMethod.GET, "/api/employees").hasAnyRole(EMPLOYEE, MANAGER, ADMIN)
-                        .requestMatchers(HttpMethod.GET, "/api/employees/**").hasAnyRole(EMPLOYEE, MANAGER, ADMIN)
-                        .requestMatchers(HttpMethod.POST, "/api/employees").hasAnyRole(MANAGER)
-                        .requestMatchers(HttpMethod.PUT, "/api/employees").hasAnyRole(MANAGER)
-                        .requestMatchers(HttpMethod.DELETE, "/api/employees").hasAnyRole(ADMIN)
+                        .requestMatchers(HttpMethod.GET, "/api/employees").hasAnyRole(
+                                Authorities.EMPLOYEE.name(),
+                                Authorities.MANAGER.name(),
+                                Authorities.ADMIN.name()
+                        )
+                        .requestMatchers(HttpMethod.GET, "/api/employees/**").hasAnyRole(
+                                Authorities.EMPLOYEE.name(),
+                                Authorities.MANAGER.name(), Authorities.ADMIN.name()
+                        )
+                        .requestMatchers(HttpMethod.POST, "/api/employees").hasRole(Authorities.MANAGER.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/employees").hasRole(Authorities.MANAGER.name())
+                        .requestMatchers(HttpMethod.DELETE, "/api/employees").hasRole(Authorities.ADMIN.name())
         );
 
 //        use HTTP basic authentication

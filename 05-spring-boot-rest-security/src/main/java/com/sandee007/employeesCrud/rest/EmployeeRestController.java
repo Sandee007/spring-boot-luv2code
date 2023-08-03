@@ -1,6 +1,7 @@
 package com.sandee007.employeesCrud.rest;
 
 import com.sandee007.employeesCrud.entity.Employee;
+import com.sandee007.employeesCrud.security.Authorities;
 import com.sandee007.employeesCrud.service.employee.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ public class EmployeeRestController {
 
     @GetMapping("")
     public List<Employee> findAll() {
+        System.out.println(Authorities.MANAGER.name());
         return employeeService.findAll();
     }
 
