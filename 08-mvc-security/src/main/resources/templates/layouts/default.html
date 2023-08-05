@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--    <title th:text="${pageTitle}">Default Page Title</title>-->
+    <title>tit</title>
+</head>
+<body>
+<!--<div th:replace="fragments/header :: header"></div>-->
+<div th:replace="~{fragments/header}"></div>
+<div th:insert="~{content}"></div>
+<!--<div th:replace="fragments/footer :: footer"></div>-->
+</body>
+</html>

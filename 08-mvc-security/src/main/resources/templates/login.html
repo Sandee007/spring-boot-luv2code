@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header}"></head>
+<body>
+<div class="container ">
+    <div class="d-flex justify-content-center">
+        <!--        <div class="d-flex row align-items-center justify-content-center">-->
+        <div class="mt-5">
+            <form action="#" th:action="@{/handle-login}" method="post">
+
+                <fieldset>
+                    <legend>Login</legend>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" class="form-label mt-4">Username</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                               placeholder="Enter Username" name="username">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                            else.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1" class="form-label mt-4">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                               autocomplete="off" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary my-3">Submit</button>
+                </fieldset>
+            </form>
+        </div>
+        <!--        </div>-->
+    </div>
+    <div class="d-flex justify-content-center">
+        <div th:if="${param.error}" class="alert alert-dismissible alert-danger">
+            Invalid Credentials
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div th:if="${param.logout}" class="alert alert-dismissible alert-success">
+            Logged Out
+        </div>
+    </div>
+</div>
+</body>
+</html>

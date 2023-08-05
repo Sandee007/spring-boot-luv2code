@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="~{fragments/header}"></head>
+<body>
+<h1>Wilcommen</h1>
+
+<!--user id-->
+User ID: <span sec:authentication="principal.username" ></span>
+<br>
+
+<!--user role-->
+User Role: <span sec:authentication="principal.authorities" ></span>
+<br>
+
+<!--spring will handle the /logout automatically -->
+<form action="#" th:action="@{/logout}" method="post">
+    <button type="submit" class="btn btn-primary">Logout</button>
+</form>
+
+<br>
+<a sec:authorize="hasRole('MANAGER')" href="#" th:href="@{/leaders}" >Leaders</a>
+<a sec:authorize="hasRole('ADMIN')" href="#" th:href="@{/systems}" >Systems</a>
+</body>
+</html>
