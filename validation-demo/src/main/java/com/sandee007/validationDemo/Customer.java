@@ -1,8 +1,15 @@
 package com.sandee007.validationDemo;
 
+import com.sandee007.validationDemo.validation.CourseCode;
 import jakarta.validation.constraints.*;
 
 public class Customer {
+
+    //    uses a custom validator
+    @CourseCode
+//    @CourseCode(value = "FFF", message = "must start with FFF")
+    private String courseCode;
+
     private String firstName;
 
     @NotNull(message = "required")
@@ -47,5 +54,13 @@ public class Customer {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
     }
 }
