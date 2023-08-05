@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <title>Employee Directory</title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3>Employee Directory</h3>
+    <hr>
+
+    <a th:href="@{/employees/create}" class="btn btn-primary my-3">Create</a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="tempEmployee : ${employees}">
+
+            <td th:text="${tempEmployee.firstName}"/>
+            <td th:text="${tempEmployee.lastName}"/>
+            <td th:text="${tempEmployee.email}"/>
+            <td>
+                <a href="#" th:href="@{/employees/create(id=${tempEmployee.id})}">Update</a>
+                <!--                th:href="@{/employees/delete(employeeId=${tempEmployee.id})}"-->
+                <!--                <a href="#" th:attr="data-id=${tempEmployee.id}" onclick="test(this)" >Delete</a> -->
+
+                <!--                da way to go-->
+                <a href="#" th:attr="data-id=@{/employees/delete(employeeId=${tempEmployee.id})}" onclick="test(this)">Delete</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    function test(data){
+        console.log(data.dataset)
+    }
+</script>
+
+</body>
+</html>
+
+
+
