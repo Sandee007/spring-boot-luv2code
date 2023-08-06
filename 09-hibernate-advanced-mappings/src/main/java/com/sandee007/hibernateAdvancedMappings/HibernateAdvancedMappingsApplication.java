@@ -35,8 +35,40 @@ public class HibernateAdvancedMappingsApplication {
             //            createCourseAndReviews(appDao);
             //            findCourseAndReviews(appDao);
             //            deleteCourseAndReviews(appDao);
-            createCourseAndStudents(appDao);
+            //            createCourseAndStudents(appDao);
+            //            findCourseAndStudents(appDao);
+            //            findStudentAndCourses(appDao);
+            //            addMoreCoursesForStudent(appDao);
+            deleteStudent(appDao);
         };
+    }
+
+    private void deleteStudent(AppDao appDao) {
+        appDao.deleteStudentById(1);
+    }
+
+    private void addMoreCoursesForStudent(AppDao appDao) {
+        Student student = appDao.findStudentWithCoursesByStudentId(1);
+
+        student.addCourse(new Course("c new 1"));
+        student.addCourse(new Course("c new 2"));
+
+        //        cascade will handle all inserts/updates
+        appDao.updateStudent(student);
+    }
+
+    private void findStudentAndCourses(AppDao appDao) {
+        Student student = appDao.findStudentWithCoursesByStudentId(1);
+
+        System.out.println(student);
+        System.out.println(student.getCourses());
+    }
+
+    private void findCourseAndStudents(AppDao appDao) {
+        Course course = appDao.findCourseWithStudentsByCourseId(4);
+
+        System.out.println(course);
+        System.out.println(course.getStudents());
     }
 
     private void createCourseAndStudents(AppDao appDao) {
@@ -75,7 +107,7 @@ public class HibernateAdvancedMappingsApplication {
     }
 
     private void deleteCourseById(AppDao appDao) {
-        appDao.deleteCourseById(1);
+        appDao.deleteCourseById(5);
     }
 
     private void updateCourse(AppDao appDao) {

@@ -3,6 +3,7 @@ package com.sandee007.hibernateAdvancedMappings.dao;
 import com.sandee007.hibernateAdvancedMappings.entity.Course;
 import com.sandee007.hibernateAdvancedMappings.entity.Instructor;
 import com.sandee007.hibernateAdvancedMappings.entity.InstructorDetail;
+import com.sandee007.hibernateAdvancedMappings.entity.Student;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,5 +135,43 @@ public class AppDaoImpl implements AppDao {
 
         q.setParameter("id", id);
         return q.getSingleResult();
+    }
+
+    @Override
+    public Course findCourseWithStudentsByCourseId(int id) {
+        TypedQuery<Course> q = entityManager.createQuery(
+                " SELECT c FROM Course c " +
+                        " JOIN FETCH c.students" +
+                        " WHERE c.id = :id "
+                , Course.class);
+
+        q.setParameter("id", id);
+        return q.getSingleResult();
+    }
+
+    @Override
+    public Student findStudentWithCoursesByStudentId(int id) {
+        TypedQuery<Student> q = entityManager.createQuery(
+                " SELECT s FROM Student  s " +
+                        " JOIN FETCH s.courses" +
+                        " WHERE s.id = :id "
+                , Student.class);
+
+        q.setParameter("id", id);
+
+        return q.getSingleResult();
+    }
+
+    @Override
+    @Transactional
+    public void updateStudent(Student student) {
+        entityManager.merge(student);
+    }
+
+    @Override
+    @Transactional
+    public void deleteStudentById(int id) {
+        Student student = entityManager.find(Student.class, id);
+        entityManager.remove(student);
     }
 }

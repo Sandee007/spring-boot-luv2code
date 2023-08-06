@@ -3,6 +3,7 @@ package com.sandee007.hibernateAdvancedMappings.dao;
 import com.sandee007.hibernateAdvancedMappings.entity.Course;
 import com.sandee007.hibernateAdvancedMappings.entity.Instructor;
 import com.sandee007.hibernateAdvancedMappings.entity.InstructorDetail;
+import com.sandee007.hibernateAdvancedMappings.entity.Student;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface AppDao {
     void deleteCourseById(int id);
     void saveCourse(Course course);
     Course findCourseAndReviewsByCourseId(int id);
+    Course findCourseWithStudentsByCourseId(int id);
+    Student findStudentWithCoursesByStudentId(int id);
+    void updateStudent(Student student);
+    void deleteStudentById(int id);
 }
