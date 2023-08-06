@@ -20,7 +20,7 @@ public class AppDaoImpl implements AppDao {
 
     @Override
     @Transactional
-    public void save(Instructor instructor) {
+    public void saveInstructor(Instructor instructor) {
         //this will save InstructorDetails as well because CascadeType == ALL
         entityManager.persist(instructor);
     }

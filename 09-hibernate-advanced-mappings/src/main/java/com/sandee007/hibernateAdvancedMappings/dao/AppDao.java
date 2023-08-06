@@ -4,7 +4,7 @@ import com.sandee007.hibernateAdvancedMappings.entity.Instructor;
 import com.sandee007.hibernateAdvancedMappings.entity.InstructorDetail;
 
 public interface AppDao {
-    void save(Instructor instructor);
+    void saveInstructor(Instructor instructor);
     Instructor findInstructorById(int id);
     void deleteInstructorById(int id);
     InstructorDetail findInstructorDetailById(int id);

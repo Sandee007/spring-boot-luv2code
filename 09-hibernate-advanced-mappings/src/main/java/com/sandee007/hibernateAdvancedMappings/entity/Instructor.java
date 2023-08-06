@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "instructor")
 @Getter
@@ -29,16 +32,30 @@ public class Instructor {
     @Column(name = "email")
     private String email;
 
-//    FOREIGN KEY
+    //    FOREIGN KEY
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "instructor_detail_id")
     private InstructorDetail instructorDetail;
 
-    public Instructor() {}
+    @OneToMany(mappedBy = "instructor", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ToString.Exclude
+    private List<Course> courses;
+
+    public Instructor() {
+    }
 
     public Instructor(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+//    add convenience methods for bi-directional relationship
+    public void addCourse(Course course){
+        if(courses == null){
+            courses = new ArrayList<Course>();
+        }
+        courses.add(course);
+        course.setInstructor(this);
     }
 }

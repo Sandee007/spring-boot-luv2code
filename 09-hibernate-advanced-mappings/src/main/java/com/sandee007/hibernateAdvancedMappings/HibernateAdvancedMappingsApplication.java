@@ -2,6 +2,7 @@ package com.sandee007.hibernateAdvancedMappings;
 
 
 import com.sandee007.hibernateAdvancedMappings.dao.AppDao;
+import com.sandee007.hibernateAdvancedMappings.entity.Course;
 import com.sandee007.hibernateAdvancedMappings.entity.Instructor;
 import com.sandee007.hibernateAdvancedMappings.entity.InstructorDetail;
 import org.springframework.boot.CommandLineRunner;
@@ -19,13 +20,29 @@ public class HibernateAdvancedMappingsApplication {
     @Bean
     public CommandLineRunner commandLineRunner(AppDao appDao) {
         return runner -> {
-//            createInstructor(appDao);
+//            createInstructor(appDao); // * watch out cuz this return a value now
 //            findInstructor(appDao);
 //            deleteInstructor(appDao);
 //            findInstructorDetailById(appDao);
-            deleteInstructorDetailById(appDao);
+//            deleteInstructorDetailById(appDao);
+            createInstructorWithCourses(appDao);
 
         };
+    }
+
+    private void createInstructorWithCourses(AppDao appDao) {
+        Instructor instructor = new Instructor("course inst", "1", "ci@1");
+        InstructorDetail instructorDetail = new InstructorDetail("course tube", "making courses");
+        instructor.setInstructorDetail(instructorDetail);
+
+        Course c1 = new Course("Air guitar guide");
+        Course c2 = new Course("Pinball masterclass");
+
+        instructor.addCourse(c1);
+        instructor.addCourse(c2);
+
+//        all 3 tables will be saved, cuz cascadeType == persist is set
+        appDao.saveInstructor(instructor);
     }
 
     private void deleteInstructorDetailById(AppDao appDao) {
@@ -33,7 +50,7 @@ public class HibernateAdvancedMappingsApplication {
     }
 
     private void findInstructorDetailById(AppDao appDao) {
-         InstructorDetail instructorDetail = appDao.findInstructorDetailById(1);
+        InstructorDetail instructorDetail = appDao.findInstructorDetailById(1);
         System.out.println(instructorDetail);
         System.out.println(instructorDetail.getInstructor());
     }
@@ -56,6 +73,7 @@ public class HibernateAdvancedMappingsApplication {
         instructor.setInstructorDetail(instructorDetail);
 
         //this will save InstructorDetails as well because CascadeType == ALL
-        appDao.save(instructor);
+        appDao.saveInstructor(instructor);
+
     }
 }
