@@ -29,7 +29,7 @@ public class HibernateAdvancedMappingsApplication {
     }
 
     private void deleteInstructorDetailById(AppDao appDao) {
-        appDao.deleteInstructorDetailById(3);
+        appDao.deleteInstructorDetailById(4);
     }
 
     private void findInstructorDetailById(AppDao appDao) {

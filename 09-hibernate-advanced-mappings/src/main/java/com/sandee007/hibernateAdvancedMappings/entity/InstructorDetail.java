@@ -23,8 +23,10 @@ public class InstructorDetail {
     @Column(name = "hobby")
     private String hobby;
 
-    @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL)
     // refers to the instructorDetail attribute in Instructor class
+//    @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL)
+//    choose all cascade types except ALL
+    @OneToOne(mappedBy = "instructorDetail", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Instructor instructor;
 
     public InstructorDetail() {
