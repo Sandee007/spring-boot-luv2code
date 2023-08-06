@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "courses")
 @Getter
@@ -22,6 +25,10 @@ public class Course {
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id") //* look for the reviews.course_id
+    private List<Review> reviews;
+
     public Course() {
     }
 
@@ -36,4 +43,13 @@ public class Course {
                 ", title='" + title + '\'' +
                 '}';
     }
+
+    //    just a convenience method
+    public void addReview(Review review) {
+        if (reviews == null) {
+            reviews = new ArrayList<>();
+        }
+        reviews.add(review);
+    }
+
 }

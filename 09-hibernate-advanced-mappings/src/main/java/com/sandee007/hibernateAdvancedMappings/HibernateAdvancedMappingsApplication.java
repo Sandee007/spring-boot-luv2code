@@ -5,6 +5,7 @@ import com.sandee007.hibernateAdvancedMappings.dao.AppDao;
 import com.sandee007.hibernateAdvancedMappings.entity.Course;
 import com.sandee007.hibernateAdvancedMappings.entity.Instructor;
 import com.sandee007.hibernateAdvancedMappings.entity.InstructorDetail;
+import com.sandee007.hibernateAdvancedMappings.entity.Review;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -33,8 +34,31 @@ public class HibernateAdvancedMappingsApplication {
             //            findInstructorWithCoursesJoinFetch(appDao);
             //            updateInstructor(appDao);
             //            updateCourse(appDao);
-            deleteCourseById(appDao);
+            //            deleteCourseById(appDao);
+            //            createCourseAndReviews(appDao);
+            //            findCourseAndReviews(appDao);
+            deleteCourseAndReviews(appDao);
         };
+    }
+
+    private void deleteCourseAndReviews(AppDao appDao) {
+        //        will also delete reviews cuz cascadeType == ALL
+        appDao.deleteCourseById(3);
+    }
+
+    private void findCourseAndReviews(AppDao appDao) {
+        Course course = appDao.findCourseAndReviewsByCourseId(3);
+        System.out.println(course);
+        System.out.println(course.getReviews());
+    }
+
+    private void createCourseAndReviews(AppDao appDao) {
+        Course course = new Course("cose");
+
+        course.addReview(new Review("noice cose"));
+        course.addReview(new Review("noice noice"));
+
+        appDao.saveCourse(course);
     }
 
     private void deleteCourseById(AppDao appDao) {

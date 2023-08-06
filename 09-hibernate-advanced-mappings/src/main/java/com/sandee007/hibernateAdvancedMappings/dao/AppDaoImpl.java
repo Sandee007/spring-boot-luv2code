@@ -113,8 +113,26 @@ public class AppDaoImpl implements AppDao {
     @Transactional
     public void deleteCourseById(int id) {
         Course course = this.findCourseById(id);
-        if(course != null){
+        if (course != null) {
             entityManager.remove(course);
         }
+    }
+
+    @Override
+    @Transactional
+    public void saveCourse(Course course) {
+        entityManager.persist(course);
+    }
+
+    @Override
+    public Course findCourseAndReviewsByCourseId(int id) {
+        TypedQuery<Course> q = entityManager.createQuery(
+                "SELECT c FROM  Course c " +
+                        " JOIN FETCH c.reviews" +
+                        " WHERE c.id = :id "
+                , Course.class);
+
+        q.setParameter("id", id);
+        return q.getSingleResult();
     }
 }
