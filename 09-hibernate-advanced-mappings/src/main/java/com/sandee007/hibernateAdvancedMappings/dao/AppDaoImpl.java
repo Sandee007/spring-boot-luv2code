@@ -1,6 +1,7 @@
 package com.sandee007.hibernateAdvancedMappings.dao;
 
 import com.sandee007.hibernateAdvancedMappings.entity.Instructor;
+import com.sandee007.hibernateAdvancedMappings.entity.InstructorDetail;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,10 @@ public class AppDaoImpl implements AppDao {
     @Transactional
     public void deleteInstructorById(int id) {
         entityManager.remove(this.findInstructorById(id));
+    }
+
+    @Override
+    public InstructorDetail findInstructorDetailById(int id) {
+        return entityManager.find(InstructorDetail.class, id);
     }
 }

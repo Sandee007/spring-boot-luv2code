@@ -6,10 +6,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name="instructor_detail")
+@Table(name = "instructor_detail")
 @Getter
 @Setter
-@ToString
+//@ToString
 public class InstructorDetail {
 
     @Id
@@ -23,10 +23,28 @@ public class InstructorDetail {
     @Column(name = "hobby")
     private String hobby;
 
-    public InstructorDetail(){}
+    @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL)
+    // refers to the instructorDetail attribute in Instructor class
+    private Instructor instructor;
+
+    public InstructorDetail() {
+    }
 
     public InstructorDetail(String youtubeChannel, String hobby) {
         this.youtubeChannel = youtubeChannel;
         this.hobby = hobby;
+    }
+
+    @Override
+    public String toString() {
+//        putting instructor in here will fail, because it is not directly mapped to db table, only hibernate knows it.
+//        instructorDetail is a mappedBy property
+//        read - https://thorben-janssen.com/lombok-hibernate-how-to-avoid-common-pitfalls/
+
+        return "InstructorDetail{" +
+                "id=" + id +
+                ", youtubeChannel='" + youtubeChannel + '\'' +
+                ", hobby='" + hobby + '\'' +
+                '}';
     }
 }
