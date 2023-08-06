@@ -37,7 +37,11 @@ public class Instructor {
     @JoinColumn(name = "instructor_detail_id")
     private InstructorDetail instructorDetail;
 
-    @OneToMany(mappedBy = "instructor", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(
+            mappedBy = "instructor",
+            //            fetch = FetchType.EAGER, // * default is LAZY
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+    )
     @ToString.Exclude
     private List<Course> courses;
 
@@ -50,9 +54,9 @@ public class Instructor {
         this.email = email;
     }
 
-//    add convenience methods for bi-directional relationship
-    public void addCourse(Course course){
-        if(courses == null){
+    //    add convenience methods for bi-directional relationship
+    public void addCourse(Course course) {
+        if (courses == null) {
             courses = new ArrayList<Course>();
         }
         courses.add(course);

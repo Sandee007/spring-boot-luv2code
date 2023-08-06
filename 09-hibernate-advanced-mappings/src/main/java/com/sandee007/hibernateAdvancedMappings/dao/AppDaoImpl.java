@@ -1,11 +1,15 @@
 package com.sandee007.hibernateAdvancedMappings.dao;
 
+import com.sandee007.hibernateAdvancedMappings.entity.Course;
 import com.sandee007.hibernateAdvancedMappings.entity.Instructor;
 import com.sandee007.hibernateAdvancedMappings.entity.InstructorDetail;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public class AppDaoImpl implements AppDao {
@@ -27,7 +31,7 @@ public class AppDaoImpl implements AppDao {
 
     @Override
     public Instructor findInstructorById(int id) {
-//        this will also retrieve instructor-details as well, cuz default behavior of @OneToOne fetch type is eager
+        //        this will also retrieve instructor-details as well, cuz default behavior of @OneToOne fetch type is eager
         return entityManager.find(Instructor.class, id);
     }
 
@@ -53,7 +57,36 @@ public class AppDaoImpl implements AppDao {
          * */
         instructorDetail.getInstructor().setInstructorDetail(null);
 
-//        delete the instructor detail
+        //        delete the instructor detail
         entityManager.remove(instructorDetail);
+    }
+
+    @Override
+    public List<Course> findCoursesByInstructorId(int id) {
+        TypedQuery<Course> query = entityManager.createQuery("FROM Course WHERE instructor.id = :id", Course.class);
+
+        query.setParameter("id", id);
+        return query.getResultList();
+    }
+
+    @Override
+    public Instructor findInstructorByIdJoinFetch(int id) {
+        //        i -> instructor here
+        //        * JOIN FETCH is similar to EAGER LOADING
+        TypedQuery<Instructor> q = entityManager.createQuery(
+                " SELECT i FROM Instructor i " +
+                        " JOIN FETCH i.courses " +
+                        " JOIN FETCH i.instructorDetail " +
+                        " WHERE i.id = :id",
+                Instructor.class
+        );
+        q.setParameter("id", id);
+        return q.getSingleResult();
+    }
+
+    @Override
+    @Transactional
+    public void updateInstructor(Instructor instructor) {
+        entityManager.merge(instructor);
     }
 }

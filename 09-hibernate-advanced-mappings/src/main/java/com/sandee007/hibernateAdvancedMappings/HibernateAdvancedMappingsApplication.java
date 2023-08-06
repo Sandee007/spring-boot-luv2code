@@ -10,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class HibernateAdvancedMappingsApplication {
 
@@ -20,14 +22,45 @@ public class HibernateAdvancedMappingsApplication {
     @Bean
     public CommandLineRunner commandLineRunner(AppDao appDao) {
         return runner -> {
-//            createInstructor(appDao); // * watch out cuz this return a value now
-//            findInstructor(appDao);
-//            deleteInstructor(appDao);
-//            findInstructorDetailById(appDao);
-//            deleteInstructorDetailById(appDao);
-            createInstructorWithCourses(appDao);
-
+            //            createInstructor(appDao); // * watch out cuz this return a value now
+            //            findInstructor(appDao);
+            //            deleteInstructor(appDao);
+            //            findInstructorDetailById(appDao);
+            //            deleteInstructorDetailById(appDao);
+            //            createInstructorWithCourses(appDao);
+            //            findInstructorWithCourses(appDao);
+            //            findCoursesForInstructor(appDao);
+            //            findInstructorWithCoursesJoinFetch(appDao);
+            updateInstructor(appDao);
         };
+    }
+
+    private void updateInstructor(AppDao appDao) {
+        Instructor instructor = appDao.findInstructorById(4);
+        if (instructor != null) {
+            instructor.setLastName("Barby");
+            appDao.updateInstructor(instructor);
+        }
+    }
+
+    private void findInstructorWithCoursesJoinFetch(AppDao appDao) {
+        Instructor instructor = appDao.findInstructorByIdJoinFetch(7);
+        System.out.println(instructor);
+
+        //        has to manually print the courses cuz there are @ToString.Excluded
+        System.out.println(instructor.getCourses());
+    }
+
+    private void findCoursesForInstructor(AppDao appDao) {
+        List<Course> courses = appDao.findCoursesByInstructorId(7);
+        System.out.println(courses);
+    }
+
+    private void findInstructorWithCourses(AppDao appDao) {
+        Instructor instructor = appDao.findInstructorById(7);
+
+        System.out.println(instructor);
+        System.out.println(instructor.getCourses());
     }
 
     private void createInstructorWithCourses(AppDao appDao) {
@@ -41,7 +74,7 @@ public class HibernateAdvancedMappingsApplication {
         instructor.addCourse(c1);
         instructor.addCourse(c2);
 
-//        all 3 tables will be saved, cuz cascadeType == persist is set
+        //        all 3 tables will be saved, cuz cascadeType == persist is set
         appDao.saveInstructor(instructor);
     }
 
