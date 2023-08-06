@@ -36,15 +36,9 @@ public class Instructor {
 
     public Instructor() {}
 
-    public void setFirstName(String firstName) {
+    public Instructor(String firstName, String lastName, String email) {
         this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
     }
 }
