@@ -1,10 +1,17 @@
 package com.sandee007.mvcSecurity.security;
 
+import com.sandee007.mvcSecurity.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -13,7 +20,16 @@ import org.springframework.security.web.SecurityFilterChain;
 import javax.sql.DataSource;
 
 @Configuration
+//@EnableWebSecurity
 public class SecurityConfig {
+
+//    @Autowired
+//    private UserDetailsService userDetailsService;
+
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     /*
     @Bean
@@ -64,7 +80,7 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(config ->
                         config
-                                .requestMatchers("/css/**", "anotherUrl").permitAll()
+                                .requestMatchers("/register/**", "/css/**", "anotherUrl").permitAll()
                                 .requestMatchers("/leaders/**").hasRole(Role.MANAGER.name())
                                 .requestMatchers("/systems/**").hasRole(Role.ADMIN.name())
                                 .anyRequest().authenticated()
@@ -84,4 +100,12 @@ public class SecurityConfig {
 
         return httpSecurity.build();
     }
+
+//    @Bean
+//    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
+//        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+//        auth.setUserDetailsService(userDetailsService);
+//        auth.setPasswordEncoder(passwordEncoder());
+//        return auth;
+//    }
 }
