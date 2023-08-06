@@ -24,7 +24,7 @@ public class HibernateAdvancedMappingsApplication {
         return runner -> {
             //            createInstructor(appDao); // * watch out cuz this return a value now
             //            findInstructor(appDao);
-                        deleteInstructor(appDao);
+            //            deleteInstructor(appDao);
             //            findInstructorDetailById(appDao);
             //            deleteInstructorDetailById(appDao);
             //            createInstructorWithCourses(appDao);
@@ -32,13 +32,18 @@ public class HibernateAdvancedMappingsApplication {
             //            findCoursesForInstructor(appDao);
             //            findInstructorWithCoursesJoinFetch(appDao);
             //            updateInstructor(appDao);
-//            updateCourse(appDao);
+            //            updateCourse(appDao);
+            deleteCourseById(appDao);
         };
+    }
+
+    private void deleteCourseById(AppDao appDao) {
+        appDao.deleteCourseById(1);
     }
 
     private void updateCourse(AppDao appDao) {
         Course course = appDao.findCourseById(1);
-        if(course != null){
+        if (course != null) {
             course.setTitle("Lil thangs");
             appDao.updateCourse(course);
         }
