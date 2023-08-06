@@ -29,6 +29,21 @@ public class Course {
     @JoinColumn(name = "course_id") //* look for the reviews.course_id
     private List<Review> reviews;
 
+    //    the moment you add this, JPA buddy will create the join-table
+    @ManyToMany(
+            fetch = FetchType.LAZY, // default is LAZY
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+    )
+    @JoinTable(
+            // * join-table name
+            name = "courses_students",
+            // reference column for this table on the join-table
+            joinColumns = @JoinColumn(name = "course_id"),
+            // reference column for the other table on the join-table
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private List<Student> students;
+
     public Course() {
     }
 
@@ -51,5 +66,13 @@ public class Course {
         }
         reviews.add(review);
     }
+
+    public void addStudent(Student student) {
+        if (students == null) {
+            students = new ArrayList<>();
+        }
+        students.add(student);
+    }
+
 
 }

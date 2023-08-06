@@ -2,10 +2,7 @@ package com.sandee007.hibernateAdvancedMappings;
 
 
 import com.sandee007.hibernateAdvancedMappings.dao.AppDao;
-import com.sandee007.hibernateAdvancedMappings.entity.Course;
-import com.sandee007.hibernateAdvancedMappings.entity.Instructor;
-import com.sandee007.hibernateAdvancedMappings.entity.InstructorDetail;
-import com.sandee007.hibernateAdvancedMappings.entity.Review;
+import com.sandee007.hibernateAdvancedMappings.entity.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,8 +34,24 @@ public class HibernateAdvancedMappingsApplication {
             //            deleteCourseById(appDao);
             //            createCourseAndReviews(appDao);
             //            findCourseAndReviews(appDao);
-            deleteCourseAndReviews(appDao);
+            //            deleteCourseAndReviews(appDao);
+            createCourseAndStudents(appDao);
         };
+    }
+
+    private void createCourseAndStudents(AppDao appDao) {
+        Course course = new Course("course with students");
+
+        Student s1 = new Student("stud", "1", "s@1");
+        Student s2 = new Student("stud", "2", "s@2");
+        Student s3 = new Student("stud", "3", "s@3");
+
+        course.addStudent(s1);
+        course.addStudent(s2);
+        course.addStudent(s3);
+
+        //        cascade will handle all table saves
+        appDao.saveCourse(course);
     }
 
     private void deleteCourseAndReviews(AppDao appDao) {

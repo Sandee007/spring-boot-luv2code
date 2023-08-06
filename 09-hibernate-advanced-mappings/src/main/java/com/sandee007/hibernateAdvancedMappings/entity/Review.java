@@ -20,7 +20,7 @@ public class Review {
     @Column(name = "comment")
     private String comment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // * default is EAGER
     @JoinColumn(name = "course_id")
     private Course course;
 
