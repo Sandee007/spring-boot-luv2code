@@ -31,8 +31,17 @@ public class HibernateAdvancedMappingsApplication {
             //            findInstructorWithCourses(appDao);
             //            findCoursesForInstructor(appDao);
             //            findInstructorWithCoursesJoinFetch(appDao);
-            updateInstructor(appDao);
+            //            updateInstructor(appDao);
+            updateCourse(appDao);
         };
+    }
+
+    private void updateCourse(AppDao appDao) {
+        Course course = appDao.findCourseById(1);
+        if(course != null){
+            course.setTitle("Lil thangs");
+            appDao.updateCourse(course);
+        }
     }
 
     private void updateInstructor(AppDao appDao) {
