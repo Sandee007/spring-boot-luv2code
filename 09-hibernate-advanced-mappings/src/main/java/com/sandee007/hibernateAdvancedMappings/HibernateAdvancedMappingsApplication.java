@@ -22,8 +22,14 @@ public class HibernateAdvancedMappingsApplication {
 //            createInstructor(appDao);
 //            findInstructor(appDao);
 //            deleteInstructor(appDao);
-            findInstructorDetailById(appDao);
+//            findInstructorDetailById(appDao);
+            deleteInstructorDetailById(appDao);
+
         };
+    }
+
+    private void deleteInstructorDetailById(AppDao appDao) {
+        appDao.deleteInstructorDetailById(3);
     }
 
     private void findInstructorDetailById(AppDao appDao) {

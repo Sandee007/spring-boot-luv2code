@@ -3,9 +3,9 @@ package com.sandee007.hibernateAdvancedMappings.dao;
 import com.sandee007.hibernateAdvancedMappings.entity.Instructor;
 import com.sandee007.hibernateAdvancedMappings.entity.InstructorDetail;
 import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class AppDaoImpl implements AppDao {
@@ -40,5 +40,11 @@ public class AppDaoImpl implements AppDao {
     @Override
     public InstructorDetail findInstructorDetailById(int id) {
         return entityManager.find(InstructorDetail.class, id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteInstructorDetailById(int id) {
+        entityManager.remove(this.findInstructorDetailById(id));
     }
 }
